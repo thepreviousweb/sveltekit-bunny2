@@ -1,0 +1,74 @@
+:root {
+	color-scheme: light;
+	font-family: system-ui, sans-serif;
+	line-height: 1.5;
+	color: #1a1a1a;
+	background: #f7f7f5;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+}
+
+a {
+	color: #0b5fff;
+}
+
+header {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	padding: 1rem 1.25rem;
+	border-bottom: 1px solid #ddd;
+	background: #fff;
+}
+
+header a {
+	text-decoration: none;
+	color: inherit;
+}
+
+header a[aria-current='page'] {
+	font-weight: 700;
+}
+
+header .brand {
+	font-weight: 700;
+	margin-right: auto;
+}
+
+main {
+	max-width: 40rem;
+	padding: 1.5rem 1.25rem 3rem;
+}
+
+form {
+	display: grid;
+	gap: 0.75rem;
+	max-width: 24rem;
+}
+
+label {
+	display: grid;
+	gap: 0.25rem;
+}
+
+input,
+textarea,
+button {
+	font: inherit;
+	padding: 0.5rem 0.65rem;
+}
+
+button {
+	cursor: pointer;
+	width: fit-content;
+}
+
+.success {
+	color: #0a7a32;
+}
