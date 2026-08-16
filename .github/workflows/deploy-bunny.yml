@@ -1,0 +1,46 @@
+name: Deploy to Bunny Edge Scripting
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    name: Build and deploy
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build SvelteKit for Bunny
+        run: npm run build
+
+      - name: Show client build output
+        run: find .svelte-kit/bunny.net/client -type f | sort
+
+      - name: Upload client assets to Bunny Storage
+        env:
+          BUNNY_ASSETS_PREFIX: ${{ secrets.BUNNY_ASSETS_PREFIX }}
+          BUNNY_ASSETS_REGION: ${{ secrets.BUNNY_ASSETS_REGION }}
+          BUNNY_ASSETS_ZONE: ${{ secrets.BUNNY_ASSETS_ZONE }}
+          BUNNY_ASSETS_UPLOAD_KEY: ${{ secrets.BUNNY_ASSETS_UPLOAD_KEY }}
+        run: node scripts/upload-assets.mjs
+
+      - name: Deploy Script to Bunny Edge Scripting
+        uses: BunnyWay/actions/deploy-script@main
+        with:
+          script_id: ${{ secrets.SCRIPT_ID }}
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          file: .svelte-kit/bunny.net/index.js
